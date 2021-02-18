@@ -1,0 +1,63 @@
+import Cocoa
+import Foundation
+
+func divisibleWithoutRemainder (number: Int, denominator: Int) -> Bool {
+    if (number % denominator) == 0 {
+        return true
+    }
+    return false
+}
+
+func addFibonacci (array: inout [Int]) -> [Int] {
+    array.append(array[array.count - 1] + array[array.count - 2])
+    return array
+}
+
+func methodEratosthenes (array: inout [Int], quantity: Int) -> [Int]{
+    for i in 2...quantity {
+        array.append(i)
+    }
+    for value in array {
+        let p = value
+        if (value * value <= quantity) {
+            var element = value
+            while element <= array.last! {
+                element += p
+                if array.firstIndex(of: element) == nil {
+                    continue
+                }
+                array.remove(at: array.firstIndex(of: element)!)
+           }
+        }
+    }
+    return array
+}
+
+var array: [Int] = []
+var n = 100
+for i in 1...n {
+    array.append(i)
+}
+print("Исходный массив array: \(array)")
+for value in array {
+    if (divisibleWithoutRemainder(number: value, denominator: 2)) {
+        array.remove(at: array.firstIndex(of: value)!)
+    } else if !(divisibleWithoutRemainder(number: value, denominator: 3)) {
+        array.remove(at: array.firstIndex(of: value)!)
+    }
+}
+print("\nМассив array после удаления всех чётных и не делящихся на 3 чисел: \(array)")
+
+n = 50
+if array.count >= 2 {
+    for _ in 1...n {
+        array = addFibonacci(array: &array)
+    }
+    print("\nДобавим в массив аrray \(n) чисел Фибоначчи \(array)")
+} else {
+    print("\nДля последовательности Фибоначчи необходимо задать первые два числа.")
+}
+
+var arrayEratosthenes: [Int] = []
+n = 100
+print("\nЗапишем в пустой массив newArray простые числа до \(n) \(methodEratosthenes(array: &arrayEratosthenes, quantity: n))")
